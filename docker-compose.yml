@@ -3,6 +3,7 @@ version: '3.8'
 services:
   web:
     build: ./django
+    container_name: django
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./django/:/usr/src/app/
@@ -13,7 +14,8 @@ services:
     depends_on:
       - db
   db:
-    image: postgres:15
+    image: postgres:15.3-alpine
+    container_name: postgres
     healthcheck:
       test:
         [
