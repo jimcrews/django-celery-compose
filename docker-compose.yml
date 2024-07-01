@@ -36,6 +36,40 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=donkey
+  redis:
+    image: redis:alpine
+  celery:
+    build: ./django
+    command: celery -A weather.celery worker -l info
+    volumes:
+      - ./django/:/app/django:cached
+      - $HOME/.aws:/home/weather-user/.aws
+    environment:
+      - DJANGO_ALLOWED_HOSTS={DJANGO_ALLOWED_HOSTS}
+      - POSTGRES_USER=postgres
+      - POSTGRES_DATABASE=donkey
+      - POSTGRES_HOSTNAME=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
+      - redis
+  celery-beat:
+    build: ./django
+    command: celery -A weather.celery beat -s /home/weather-user/celerybeat-schedule -l info
+    volumes:
+      - ./django/:/app/django:cached
+      - $HOME/.aws:/home/weather-user/.aws
+    environment:
+      - DJANGO_ALLOWED_HOSTS={DJANGO_ALLOWED_HOSTS}
+      - POSTGRES_USER=postgres
+      - POSTGRES_DATABASE=postgres
+      - POSTGRES_HOSTNAME=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
+      - redis
 
 volumes:
   postgres_data:

@@ -1,10 +1,11 @@
 # pull official base image
-FROM python:3.11.4-slim-buster
+FROM python:3.11-alpine as base
 
-RUN apt-get update && apt install -y netcat
+USER root
+RUN apk add gcc python3-dev musl-dev libffi-dev curl
 
-# set work directory
-WORKDIR /usr/src/app
+RUN mkdir /app
+WORKDIR /app
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -15,13 +16,14 @@ RUN pip install --upgrade pip
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
+RUN adduser -D weather-user
+USER weather-user
+
 # copy entrypoint.sh
 COPY ./entrypoint.sh .
-RUN sed -i 's/\r$//g' entrypoint.sh
-RUN chmod +x entrypoint.sh
 
 # copy project
 COPY . .
 
 # run entrypoint.sh
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]

@@ -47,9 +47,24 @@ python manage.py runserver
 docker-compose exec web python manage.py startapp weather
 ```
 
+# Add Celery and Beat
 
+1. Add celery and redis to requirements.txt
+2. Set the Weather app as a celery app by configuring __init__.py and creating the celery.py and task.
+3. Add celery settings
+4. Config docker-compose
+5. Test by adding a key into redis:
+```
+docker-compose exec redis redis-cli
+set test "Hey this works"
+```
+
+Celery docker logs should show the new message
+```
+Hey this works
+Task weather.tasks.redis_weather_listener succeeded
+```
 
  TODO: 
 
- 1. Setup Celery and Beat
- 2. Setup 'Weather' data polling using Redis Streams
+ 1. Setup 'Weather' data polling using Redis Streams
