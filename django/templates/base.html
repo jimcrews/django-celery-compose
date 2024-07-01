@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/base.css' %}" rel="stylesheet">
+  <link href="{% static 'css/home.css' %}" rel="stylesheet">
+</head>
+
+<body>
+  <div id="header">
+
+    <span class="logo">
+        <img src="{% get_media_prefix %}logo.jpg" />
+    </span>
+
+    <ul class="menu">
+      <li {% if section == "my_appointments" %} class="selected" {% endif %}>
+        <span class="heading">My Weather Updates</span>
+      </li>
+    </ul>
+  </div>
+
+  <div id="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+</body>
+
+</html>

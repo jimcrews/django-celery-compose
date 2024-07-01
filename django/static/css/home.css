@@ -1,0 +1,25 @@
+.home {
+position: relative;
+    height: calc(100vh - 71px);
+    background-color: rgb(200, 205, 208);
+
+}
+.home .bg-image {
+    max-height:auto; 
+    min-width:100%;
+    max-width: 100%;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    border-bottom: 15px solid rgb(231, 231, 231);
+}
+
+.home #content{
+    color: rgb(48, 48, 48);
+    padding-top: 30px;
+    text-align:center;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}

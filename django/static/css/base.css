@@ -1,0 +1,33 @@
+#header {
+    padding:20px 100px;
+    font-size:18px;
+    background:#ffffff;
+    color:#fff;
+    border-bottom:4px solid #5e717f;
+    overflow:auto;
+}
+
+#header .logo img {
+    position: absolute;
+    height: 65px;
+    top: 2px;
+    left: 15px;
+}
+
+#header ul.menu {
+    list-style:none;
+    float:left;
+    margin:0 0 0 200px;
+    padding:0;
+    text-decoration: none;
+}
+#header ul.menu li {
+    float:left;
+    padding-left:10px;
+}
+
+#header .heading {
+    color:#3d6290;
+    text-decoration: none;
+    cursor: default;
+}
