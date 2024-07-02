@@ -17,13 +17,13 @@ COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
 RUN adduser -D weather-user
-USER weather-user
 
-# copy entrypoint.sh
+# copy entrypoint.sh and project
 COPY ./entrypoint.sh .
-
-# copy project
 COPY . .
 
+RUN chown -R weather-user:weather-user /app
+
+USER weather-user
 # run entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]

@@ -6,11 +6,49 @@
   <div class="home">
     <img class="bg-image" src="{% get_media_prefix %}banner.jpg" />
     <div id="content">
-      test here   
+      {% if messages %}
+      
+        <table>
+          <thead>
+              <tr>
+                  <th>Date</th><th>Temperature</th><th>Summary</th><th>Fire Danger Level</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for msg in messages %}
+              <tr>
+                  <td>{{ msg.date }}</td>
+                  <td>{{ msg.temperature }}</td>
+                  <td>{{ msg.summary }}</td>
+                  <td>{{ msg.fire_danger }}</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+
+      <div style="text-align: center; width: 80%; margin: 0 auto; text-align: center;">
+        <h3 style="margin-top: 30px;">There is nothing in Redis</h3>
+        <div>Check Celery Logs: <code>docker-compose logs -f celery</code></div>
+        <div>Connect to Redis: <code>docker-compose exec redis redis-cli</code></div><br />
+        <div>Add weather data to stream:</div>
+        <div>
+          <code>XADD weather:sydney * date 20240101 temperature 34 summary "Warm and Dry" fire_danger "MODERATE"</code><br />
+          <code>XADD weather:sydney * date 20240102 temperature 38 summary "Hot and Dry" fire_danger "EXTREME"</code><br />
+          <code>XADD weather:sydney * date 20240103 temperature 41 summary "Boiling Hot and Dry" fire_danger "CATASTROPHIC"</code><br />
+          <code>XADD weather:sydney * date 20240104 temperature 31 summary "Raining" fire_danger "LOW"</code><br />
+          <code>XADD weather:sydney * date 20240105 temperature 29 summary "Raining" fire_danger "LOW"</code><br />
+          <code>XADD weather:sydney * date 20240106 temperature 33 summary "Warming Up" fire_danger "MODERATE"</code><br />
+          <code>XADD weather:sydney * date 20240107 temperature 35 summary "Humid and Hot" fire_danger "MODERATE"</code><br />
+          <code>XADD weather:sydney * date 20240108 temperature 38 summary "Hot" fire_danger "EXTREME"</code><br />
+          <code>XADD weather:sydney * date 20240109 temperature 39 summary "Boiling Hot" fire_danger "CATASTROPHIC"</code><br />
+          <code>XADD weather:sydney * date 20240110 temperature 40 summary "Same as Yesterday" fire_danger "CATASTROPHIC"</code><br />
+        </div>
+      </div>
+
+      {% endif %}
+    
     </div>
-
-
-    </div>
-
+  </div>
 
 {% endblock %}

@@ -4,13 +4,39 @@ Local Development
 
 ## Start Project
 Launch the containers using `make dev` <br />
-Browse the web app - http://0.0.0.0:8000/
-
-Migrations and Superuser commands:
+Make migrations:
 
 ```
+docker-compose exec web python manage.py makemigrations
 docker-compose exec web python manage.py migrate
+```
+
+Browse the web app - http://0.0.0.0:8000/
+
+---
+
+Other potentially useful commands:
+
+```
 docker-compose exec web python manage.py createsuperuser
+docker-compose exec web python manage.py shell
+```
+
+Add Redis key:
+
+```
+docker-compose exec redis redis-cli
+
+XADD weather:sydney * date 20240101 temperature 34 summary "Warm and Dry" fire_danger "MODERATE"
+XADD weather:sydney * date 20240102 temperature 38 summary "Hot and Dry" fire_danger "EXTREME"
+XADD weather:sydney * date 20240103 temperature 41 summary "Boiling Hot and Dry" fire_danger "CATASTROPHIC"
+XADD weather:sydney * date 20240104 temperature 31 summary "Raining" fire_danger "LOW"
+```
+
+Celery docker logs should show the new message
+```
+Hey this works
+Task weather.tasks.redis_weather_listener succeeded
 ```
 
 Exec into Postgres `docker-compose exec db psql --username=postgres --dbname=donkey` and run SQL:
@@ -53,18 +79,5 @@ docker-compose exec web python manage.py startapp weather
 2. Set the Weather app as a celery app by configuring __init__.py and creating the celery.py and task.
 3. Add celery settings
 4. Config docker-compose
-5. Test by adding a key into redis:
-```
-docker-compose exec redis redis-cli
-set test "Hey this works"
-```
+5. Test by adding a key into redis
 
-Celery docker logs should show the new message
-```
-Hey this works
-Task weather.tasks.redis_weather_listener succeeded
-```
-
- TODO: 
-
- 1. Setup 'Weather' data polling using Redis Streams

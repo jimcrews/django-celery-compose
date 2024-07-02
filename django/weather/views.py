@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from .models import Forecast
 
 def home(request):
-    return render(request, "home.html")
+    messages = Forecast.objects.all()
+    return render(request, "home.html", { "messages": messages })
