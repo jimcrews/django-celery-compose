@@ -25,7 +25,7 @@ def redis_weather_listener() -> None:
         last_msg = None 
         
         try: 
-            last_msg = Forecast.objects.latest("date")
+            last_msg = Forecast.objects.latest("stream_id")
         except ObjectDoesNotExist:
             LOGGER.info("no forecast.. get all")
 

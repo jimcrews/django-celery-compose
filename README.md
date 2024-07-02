@@ -81,3 +81,9 @@ docker-compose exec web python manage.py startapp weather
 4. Config docker-compose
 5. Test by adding a key into redis
 
+Done.
+
+Further Reading here - https://redis.io/docs/latest/develop/data-types/streams/
+
+TODO: 
+ - connect to AWS Redis
